@@ -4,15 +4,12 @@ import 'question_validator.dart';
 
 class QuestionRepository {
   final QuestionLoader _loader;
-  final QuestionValidator _validator;
 
   QuestionBank? _cache;
 
   QuestionRepository({
     QuestionLoader? loader,
-    QuestionValidator? validator,
-  })  : _loader = loader ?? QuestionLoader(),
-        _validator = validator ?? QuestionValidator();
+  }) : _loader = loader ?? QuestionLoader();
 
   Future<QuestionBank> load() async {
     if (_cache != null) return _cache!;
@@ -53,7 +50,6 @@ class QuestionRepository {
     pool.shuffle();
     if (pool.length >= count) return pool.take(count).toList();
 
-    // fail hard (bolje nego tiho) - nema dovoljno pitanja za taj mode
     throw StateError(
       'Not enough questions for L$level C$categoryId. Need $count, have ${pool.length}.',
     );

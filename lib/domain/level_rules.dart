@@ -2,11 +2,11 @@ class LevelRules {
   static int questionsCount(int level) {
     switch (level) {
       case 1:
-        return 10; // novice
+        return 9; // novice
       case 2:
-        return 10; // medium
+        return 9; // medium
       case 3:
-        return 10; // advanced
+        return 9; // advanced
       default:
         throw ArgumentError('Invalid level: $level');
     }

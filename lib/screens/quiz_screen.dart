@@ -287,8 +287,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final hasCodeBlock =
         q.questionFormat == 'code' &&
-        q.codeSnippet != null &&
-        q.codeSnippet!.trim().isNotEmpty;
+        q.codeSnippet.trim().isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -312,7 +311,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            if (hasCodeBlock) _buildCodeBlock(q.codeSnippet!),
+            if (hasCodeBlock) _buildCodeBlock(q.codeSnippet),
             if (!hasCodeBlock) const SizedBox(height: 16),
             ...List.generate(4, (i) {
               final choiceText = q.choices[i].trim().isEmpty

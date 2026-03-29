@@ -1,4 +1,4 @@
-import '/models/question.dart';
+import '../models/question.dart';
 
 class QuestionValidator {
   static List<String> validate(Question q) {
@@ -31,7 +31,7 @@ class QuestionValidator {
 
     // Code validation
     if (q.questionFormat == 'code') {
-      if (q.codeSnippet == null || q.codeSnippet!.trim().isEmpty) {
+      if (q.codeSnippet.trim().isEmpty) {
         errors.add('Code question missing codeSnippet');
       }
     }

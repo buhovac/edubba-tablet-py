@@ -8,7 +8,7 @@ class ShareTextBuilder {
   }) {
     final accuracy = ((result.correct / result.total) * 100).toStringAsFixed(1);
 
-    if (result.level == 7 && result.passed) {
+    if (result.level == 5 && result.passed) {
       return 'I achieved ${config.masteryTitle} status with a perfect ${result.correct}/${result.total} on the ultimate questions. Accuracy: $accuracy%.';
     }
 
