@@ -3,21 +3,50 @@ import 'package:flutter/material.dart';
 class AnswerButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
+  final bool isSelected;
+  final bool isCorrectAnswer;
+  final bool isWrongSelected;
+  final bool isLocked;
 
   const AnswerButton({
     super.key,
     required this.text,
     required this.onPressed,
+    this.isSelected = false,
+    this.isCorrectAnswer = false,
+    this.isWrongSelected = false,
+    this.isLocked = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    Color? background;
+    Color? foreground;
+    OutlinedBorder shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(999),
+    );
+
+    if (isLocked) {
+      if (isCorrectAnswer) {
+        background = Colors.green.shade100;
+        foreground = Colors.green.shade900;
+      } else if (isWrongSelected) {
+        background = Colors.red.shade100;
+        foreground = Colors.red.shade900;
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
           onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: background,
+            foregroundColor: foreground,
+            shape: shape,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14),
             child: Text(text),

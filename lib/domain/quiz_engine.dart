@@ -34,37 +34,54 @@ class QuizEngine {
       correct: 0,
       answered: 0,
       finished: false,
+      showingFeedback: false,
+      selectedChoiceIndex: null,
+      lastAnswerCorrect: null,
     );
+
     return state;
   }
 
-  /// returns updated state
   QuizState answer(int choiceIndex) {
     final s = state;
-    if (s.finished) return s;
+    if (s.finished || s.showingFeedback) return s;
 
     final q = s.current;
     final isCorrect = choiceIndex == q.correctIndex;
 
-    final nextAnswered = s.answered + 1;
-    final nextCorrect = s.correct + (isCorrect ? 1 : 0);
+    _state = s.copyWith(
+      answered: s.answered + 1,
+      correct: s.correct + (isCorrect ? 1 : 0),
+      showingFeedback: true,
+      selectedChoiceIndex: choiceIndex,
+      lastAnswerCorrect: isCorrect,
+    );
+
+    return state;
+  }
+
+  QuizState nextQuestion() {
+    final s = state;
+    if (s.finished) return s;
+    if (!s.showingFeedback) return s;
 
     final isLast = s.currentIndex >= s.questions.length - 1;
+
     if (isLast) {
       _state = s.copyWith(
-        answered: nextAnswered,
-        correct: nextCorrect,
         finished: true,
+        showingFeedback: false,
       );
       return state;
     }
 
     _state = s.copyWith(
       currentIndex: s.currentIndex + 1,
-      answered: nextAnswered,
-      correct: nextCorrect,
-      finished: false,
+      showingFeedback: false,
+      clearSelectedChoice: true,
+      clearLastAnswerCorrect: true,
     );
+
     return state;
   }
 

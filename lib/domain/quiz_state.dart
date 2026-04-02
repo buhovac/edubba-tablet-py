@@ -9,6 +9,10 @@ class QuizState {
   final int answered;
   final bool finished;
 
+  final bool showingFeedback;
+  final int? selectedChoiceIndex;
+  final bool? lastAnswerCorrect;
+
   const QuizState({
     required this.level,
     required this.categoryId,
@@ -17,6 +21,9 @@ class QuizState {
     required this.correct,
     required this.answered,
     required this.finished,
+    required this.showingFeedback,
+    required this.selectedChoiceIndex,
+    required this.lastAnswerCorrect,
   });
 
   Question get current => questions[currentIndex];
@@ -26,6 +33,11 @@ class QuizState {
     int? correct,
     int? answered,
     bool? finished,
+    bool? showingFeedback,
+    int? selectedChoiceIndex,
+    bool? lastAnswerCorrect,
+    bool clearSelectedChoice = false,
+    bool clearLastAnswerCorrect = false,
   }) {
     return QuizState(
       level: level,
@@ -35,6 +47,13 @@ class QuizState {
       correct: correct ?? this.correct,
       answered: answered ?? this.answered,
       finished: finished ?? this.finished,
+      showingFeedback: showingFeedback ?? this.showingFeedback,
+      selectedChoiceIndex: clearSelectedChoice
+          ? null
+          : (selectedChoiceIndex ?? this.selectedChoiceIndex),
+      lastAnswerCorrect: clearLastAnswerCorrect
+          ? null
+          : (lastAnswerCorrect ?? this.lastAnswerCorrect),
     );
   }
 }

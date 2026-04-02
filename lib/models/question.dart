@@ -11,6 +11,7 @@ class Question {
   final int correctIndex;
   final List<String> tags;
   final String sourceRef;
+  final String explanation;
 
   const Question({
     required this.id,
@@ -25,6 +26,7 @@ class Question {
     required this.correctIndex,
     required this.tags,
     required this.sourceRef,
+    required this.explanation,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class Question {
       correctIndex: json['correctIndex'] as int,
       tags: (json['tags'] as List?)?.map((e) => e as String).toList() ?? const [],
       sourceRef: (json['sourceRef'] as String?) ?? '',
+      explanation: (json['explanation'] as String?) ?? '',
     );
   }
 }

@@ -6,6 +6,7 @@ import '../domain/quiz_engine.dart';
 import '../domain/quiz_state.dart';
 import '../services/progress_service.dart';
 import '../widgets/answer_button.dart';
+import '../widgets/explanation_card.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/question_card.dart';
 import 'result_screen.dart';
@@ -30,7 +31,6 @@ class _QuizScreenState extends State<QuizScreen> {
 
   QuizState? _state;
   Object? _error;
-
   bool _locked = false;
 
   @override
@@ -66,9 +66,7 @@ class _QuizScreenState extends State<QuizScreen> {
   void _openResultScreen(QuizResult result) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => ResultScreen(
-          result: result,
-        ),
+        builder: (_) => ResultScreen(result: result),
       ),
     );
   }
@@ -80,27 +78,37 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       final s = _engine.answer(choiceIndex);
 
+      setState(() {
+        _state = s;
+        _locked = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e;
+        _locked = false;
+      });
+    }
+  }
+
+  Future<void> _nextQuestion() async {
+    if (_locked) return;
+    _locked = true;
+
+    try {
+      final s = _engine.nextQuestion();
+
       if (s.finished) {
         final r = _engine.finish();
+        await _progressService.updateAfterQuiz(r);
 
-        _progressService.updateAfterQuiz(r).then((_) {
-          if (!mounted) return;
+        if (!mounted) return;
 
-          setState(() {
-            _state = s;
-            _locked = false;
-          });
-
-          _openResultScreen(r);
-        }).catchError((e) {
-          if (!mounted) return;
-
-          setState(() {
-            _error = e;
-            _locked = false;
-          });
+        setState(() {
+          _state = s;
+          _locked = false;
         });
 
+        _openResultScreen(r);
         return;
       }
 
@@ -120,29 +128,29 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     if (_error != null) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Quiz'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Something went wrong',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        appBar: AppBar(title: const Text('Quiz')),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Something went wrong',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Text('Error: $_error'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Back'),
-              ),
-            ],
+                const SizedBox(height: 12),
+                Text('Error: $_error'),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -150,14 +158,17 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (_state == null) {
       return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+        body: SafeArea(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       );
     }
 
     final s = _state!;
     final q = s.current;
+
     final categoryTitle =
         appQuizConfig.getCategoryById(s.categoryId)?.title ??
         'Category ${s.categoryId}';
@@ -171,10 +182,9 @@ class _QuizScreenState extends State<QuizScreen> {
           '$categoryTitle - ${LevelRules.label(s.level)} (${s.currentIndex + 1}/${s.questions.length})',
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
             QuizProgressBar(
               currentIndex: s.currentIndex,
@@ -187,21 +197,40 @@ class _QuizScreenState extends State<QuizScreen> {
               showCodeBlock: hasCodeBlock,
             ),
             const SizedBox(height: 16),
-            ...List.generate(4, (i) {
+            ...List.generate(q.choices.length, (i) {
               final choiceText = q.choices[i].trim().isEmpty
                   ? '(empty choice)'
                   : q.choices[i];
 
+              final isSelected = s.selectedChoiceIndex == i;
+              final isCorrectAnswer = s.showingFeedback && i == q.correctIndex;
+              final isWrongSelected =
+                  s.showingFeedback && isSelected && i != q.correctIndex;
+
               return AnswerButton(
                 text: choiceText,
-                onPressed: _locked ? null : () => _answer(i),
+                onPressed: s.showingFeedback || _locked ? null : () => _answer(i),
+                isSelected: isSelected,
+                isCorrectAnswer: isCorrectAnswer,
+                isWrongSelected: isWrongSelected,
+                isLocked: s.showingFeedback,
               );
             }),
-            const Spacer(),
+            if (s.showingFeedback) ...[
+              const SizedBox(height: 8),
+              ExplanationCard(
+                isCorrect: s.lastAnswerCorrect ?? false,
+                correctAnswer: q.choices[q.correctIndex],
+                explanation: q.explanation,
+                onNext: _nextQuestion,
+              ),
+            ],
+            const SizedBox(height: 12),
             Text(
               'Correct: ${s.correct} / Answered: ${s.answered}',
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
