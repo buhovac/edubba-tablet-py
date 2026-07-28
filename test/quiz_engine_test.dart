@@ -9,7 +9,7 @@ void main() {
 
     expect(LevelRules.questionsCount(2), 9);
     expect(LevelRules.passThreshold(2), 8);
-    expect(LevelRules.label(2), 'Medium');
+    expect(LevelRules.label(2), 'Intermediate');
 
     expect(LevelRules.questionsCount(3), 9);
     expect(LevelRules.passThreshold(3), 8);

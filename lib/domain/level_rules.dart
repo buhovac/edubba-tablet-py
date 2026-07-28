@@ -30,7 +30,7 @@ class LevelRules {
       case 1:
         return 'Novice';
       case 2:
-        return 'Medium';
+        return 'Intermediate';
       case 3:
         return 'Advanced';
       default:

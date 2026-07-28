@@ -66,12 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
     for (final category in appQuizConfig.categories) {
       final unlocked = progress.unlockedLevelForCategory(category.id);
       total += unlocked - 1;
-
-      if (progress.fanMasterUnlocked &&
-          category.id == appQuizConfig.categories.last.id &&
-          unlocked == 3) {
-        total = total;
-      }
     }
 
     return total.clamp(0, appQuizConfig.categories.length * 3);
