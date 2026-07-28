@@ -1,4 +1,4 @@
-package com.example.seinfeld_quiz
+package be.novinicium.pythonquiz
 
 import io.flutter.embedding.android.FlutterActivity
 
