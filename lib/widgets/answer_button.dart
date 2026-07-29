@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 class AnswerButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -20,21 +22,23 @@ class AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? background;
-    Color? foreground;
-    OutlinedBorder shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(999),
-    );
+    final colorScheme = Theme.of(context).colorScheme;
+
+    // Neutral/outlined by default — both for the unanswered state and for a
+    // wrong option the user didn't pick once answers are locked.
+    Color background = Colors.transparent;
+    Color foreground = colorScheme.onSurface;
+    Color border = AppColors.charcoalOutline;
 
     if (isLocked) {
-      final colorScheme = Theme.of(context).colorScheme;
-
       if (isCorrectAnswer) {
         background = colorScheme.primary;
         foreground = colorScheme.onPrimary;
+        border = colorScheme.primary;
       } else if (isWrongSelected) {
         background = colorScheme.error;
         foreground = colorScheme.onError;
+        border = colorScheme.error;
       }
     }
 
@@ -47,7 +51,12 @@ class AnswerButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: background,
             foregroundColor: foreground,
-            shape: shape,
+            disabledBackgroundColor: background,
+            disabledForegroundColor: foreground,
+            side: BorderSide(color: border, width: 1.2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(999),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 14),
