@@ -24,9 +24,10 @@ class QuestionCard extends StatelessWidget {
           children: [
             Text(
               questionText,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 16),
