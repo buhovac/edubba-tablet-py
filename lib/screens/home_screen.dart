@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edubba Quiz'),
+        title: const Text('Edubba Tablet PY'),
         centerTitle: false,
       ),
       body: FutureBuilder<AppProgress>(
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 const SizedBox(height: 4),
                 Text(
-                  'Edubba Quiz',
+                  'Edubba Tablet PY',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: accent,

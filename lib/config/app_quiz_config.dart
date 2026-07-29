@@ -2,7 +2,7 @@ import '../models/quiz_category.dart';
 import 'quiz_config.dart';
 
 const appQuizConfig = QuizConfig(
-  appTitle: 'Python Quiz',
+  appTitle: 'Edubba Tablet PY',
   masteryTitle: 'Python Master',
   beginnerTitle: 'Python beginner',
   quizSubjectName: 'Python',
