@@ -173,10 +173,6 @@ Release builds are signed via a local `android/key.properties` (gitignored) refe
 
 ---
 
-## 📚 Context
-
-This project started as an exam assignment (Ifosup Wavre, IT Bachelor) themed as a *Seinfeld* trivia quiz. It was later re-architected into a **topic-agnostic quiz engine** and rethemed as a Python learning companion — the first of a planned family of subject-specific "Edubba Tablet" apps (C#, JavaScript, Networks…), each a thin JSON + config layer over the same engine.
-
 It also doubles as a public build log: development is documented for a YouTube tutorial series, and the Play Store release is a deliberate dry run of the full publishing pipeline — signing, store listing, and compliance — for reuse across the next apps in the series.
 
 Built and maintained by [Nov Inicium SRL](https://novinicium.be).
