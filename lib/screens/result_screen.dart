@@ -11,33 +11,23 @@ import 'quiz_screen.dart';
 class ResultScreen extends StatelessWidget {
   final QuizResult result;
 
-  const ResultScreen({
-    super.key,
-    required this.result,
-  });
+  const ResultScreen({super.key, required this.result});
 
   bool get hasNextLevel => result.passed && result.level < 3;
 
   bool get isCategoryComplete => result.passed && result.level == 3;
 
   Future<void> _shareResult() async {
-    final text = ShareTextBuilder.build(
-      result: result,
-      config: appQuizConfig,
-    );
+    final text = ShareTextBuilder.build(result: result, config: appQuizConfig);
 
-    await SharePlus.instance.share(
-      ShareParams(text: text),
-    );
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 
   void _playAgain(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => QuizScreen(
-          level: result.level,
-          categoryId: result.categoryId,
-        ),
+        builder: (_) =>
+            QuizScreen(level: result.level, categoryId: result.categoryId),
       ),
     );
   }
@@ -47,10 +37,8 @@ class ResultScreen extends StatelessWidget {
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => QuizScreen(
-          level: result.level + 1,
-          categoryId: result.categoryId,
-        ),
+        builder: (_) =>
+            QuizScreen(level: result.level + 1, categoryId: result.categoryId),
       ),
     );
   }
@@ -93,9 +81,7 @@ class ResultScreen extends StatelessWidget {
     final levelLabel = LevelRules.label(result.level);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Result'),
-      ),
+      appBar: AppBar(title: const Text('Result')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -107,7 +93,8 @@ class ResultScreen extends StatelessWidget {
                   children: [
                     Text(
                       appQuizConfig.appTitle,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
                             fontWeight: FontWeight.w800,
                             color: Theme.of(context).colorScheme.primary,
                           ),
@@ -116,159 +103,175 @@ class ResultScreen extends StatelessWidget {
                     Text(
                       'Sharpen your coding skills',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: AppColors.mutedGray,
-                          ),
+                        color: AppColors.mutedGray,
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: ListView(
-                  children: [
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(22),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Performance Summary',
-                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              '$categoryTitle / $levelLabel',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                            const SizedBox(height: 18),
-                            Text(
-                              _buildResultTitle(),
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                            ),
-                            const SizedBox(height: 18),
-                            const Divider(),
-                            const SizedBox(height: 8),
-                            _MetricRow(
-                              icon: Icons.check_circle,
-                              label: 'Score',
-                              value: '${result.correct}/${result.total}',
-                            ),
-                            const SizedBox(height: 12),
-                            _MetricRow(
-                              icon: Icons.percent,
-                              label: 'Accuracy',
-                              value: '$accuracy%',
-                            ),
-                            const SizedBox(height: 12),
-                            _MetricRow(
-                              icon: Icons.local_fire_department,
-                              label: 'Consistency',
-                              value: '${result.correct}/${result.total}',
-                            ),
-                          ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(22),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Performance Summary',
+                                style: Theme.of(context).textTheme.headlineSmall
+                                    ?.copyWith(fontWeight: FontWeight.w800),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                '$categoryTitle / $levelLabel',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.titleLarge
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                              const SizedBox(height: 18),
+                              Text(
+                                _buildResultTitle(),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(fontWeight: FontWeight.w800),
+                              ),
+                              const SizedBox(height: 18),
+                              const Divider(),
+                              const SizedBox(height: 8),
+                              _MetricRow(
+                                icon: Icons.check_circle,
+                                label: 'Score',
+                                value: '${result.correct}/${result.total}',
+                              ),
+                              const SizedBox(height: 12),
+                              _MetricRow(
+                                icon: Icons.percent,
+                                label: 'Accuracy',
+                                value: '$accuracy%',
+                              ),
+                              const SizedBox(height: 12),
+                              _MetricRow(
+                                icon: Icons.local_fire_department,
+                                label: 'Consistency',
+                                value: '${result.correct}/${result.total}',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(22),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.lightbulb,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  'Insight',
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              _buildInsight(),
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    height: 1.5,
+                      const SizedBox(height: 16),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(22),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.lightbulb,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                   ),
-                            ),
-                          ],
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Insight',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(fontWeight: FontWeight.w800),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 14),
+                              Text(
+                                _buildInsight(),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge?.copyWith(height: 1.5),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(22),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.chevron_right,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  'Next Step',
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.w800,
-                                        color: Theme.of(context).colorScheme.primary,
-                                      ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              _buildNextStep(),
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    height: 1.5,
+                      const SizedBox(height: 16),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(22),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.chevron_right,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                   ),
-                            ),
-                          ],
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Next Step',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w800,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 14),
+                              Text(
+                                _buildNextStep(),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge?.copyWith(height: 1.5),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 20),
+                      if (hasNextLevel) ...[
+                        ElevatedButton(
+                          onPressed: () => _goToNextLevel(context),
+                          child: const Text('Start Next Level'),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      ElevatedButton(
+                        onPressed: () => _playAgain(context),
+                        child: const Text('Play Again'),
+                      ),
+                      const SizedBox(height: 12),
+                      OutlinedButton(
+                        onPressed: _shareResult,
+                        child: const Text('Share Result'),
+                      ),
+                      const SizedBox(height: 8),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Back'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              if (hasNextLevel) ...[
-                ElevatedButton(
-                  onPressed: () => _goToNextLevel(context),
-                  child: const Text('Start Next Level'),
-                ),
-                const SizedBox(height: 12),
-              ],
-              ElevatedButton(
-                onPressed: () => _playAgain(context),
-                child: const Text('Play Again'),
-              ),
-              const SizedBox(height: 12),
-              OutlinedButton(
-                onPressed: _shareResult,
-                child: const Text('Share Result'),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Back'),
               ),
             ],
           ),
@@ -293,25 +296,21 @@ class _MetricRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          color: Theme.of(context).colorScheme.primary,
-          size: 28,
-        ),
+        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 28),
         const SizedBox(width: 14),
         Expanded(
           child: Text(
             label,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         Text(
           value,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w800,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
         ),
       ],
     );
