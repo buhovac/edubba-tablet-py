@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CodeMind'),
+        title: const Text('Edubba Quiz'),
         centerTitle: false,
       ),
       body: FutureBuilder<AppProgress>(
@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 const SizedBox(height: 4),
                 Text(
-                  'CodeMind',
+                  'Edubba Quiz',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: accent,
