@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../config/app_quiz_config.dart';
 import '../models/app_progress.dart';
 import '../services/progress_service.dart';
+import '../theme/app_theme.dart';
 import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -94,9 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const accent = Color(0xFF6F4FD8);
-    const accentSoft = Color(0xFFEDE7F8);
-    const textMuted = Color(0xFF7A6A8F);
+    final accent = Theme.of(context).colorScheme.primary;
+    const accentSoft = AppColors.charcoalOutline;
+    const textMuted = AppColors.mutedGray;
 
     return Scaffold(
       appBar: AppBar(
@@ -313,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.auto_awesome,
                                     size: 20,
                                     color: accent,

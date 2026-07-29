@@ -61,7 +61,9 @@ class _DebugQuestionsScreenState extends State<DebugQuestionsScreen> {
                 'Validation errors: ${errors.length}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: errors.isEmpty ? Colors.green : Colors.red,
+                  color: errors.isEmpty
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.error,
                 ),
               ),
               if (errors.isNotEmpty) ...[

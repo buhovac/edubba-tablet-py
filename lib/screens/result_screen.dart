@@ -5,6 +5,7 @@ import '../config/app_quiz_config.dart';
 import '../domain/level_rules.dart';
 import '../domain/quiz_state.dart';
 import '../services/share_text_builder.dart';
+import '../theme/app_theme.dart';
 import 'quiz_screen.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -108,14 +109,14 @@ class ResultScreen extends StatelessWidget {
                       appQuizConfig.appTitle,
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF4F378B),
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Sharpen your coding skills',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: const Color(0xFF7A6A8F),
+                            color: AppColors.mutedGray,
                           ),
                     ),
                   ],
@@ -141,7 +142,7 @@ class ResultScreen extends StatelessWidget {
                               '$categoryTitle / $levelLabel',
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: const Color(0xFF6F4FD8),
+                                    color: Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -186,9 +187,9 @@ class ResultScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.lightbulb,
-                                  color: Color(0xFFE5A73B),
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 const SizedBox(width: 10),
                                 Text(
@@ -219,16 +220,16 @@ class ResultScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.chevron_right,
-                                  color: Color(0xFF6F4FD8),
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 const SizedBox(width: 10),
                                 Text(
                                   'Next Step',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                         fontWeight: FontWeight.w800,
-                                        color: const Color(0xFF6F4FD8),
+                                        color: Theme.of(context).colorScheme.primary,
                                       ),
                                 ),
                               ],
@@ -294,7 +295,7 @@ class _MetricRow extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: const Color(0xFF6F4FD8),
+          color: Theme.of(context).colorScheme.primary,
           size: 28,
         ),
         const SizedBox(width: 14),

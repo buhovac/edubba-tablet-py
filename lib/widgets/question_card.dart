@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_theme.dart';
+
 class QuestionCard extends StatelessWidget {
   final String questionText;
   final String codeSnippet;
@@ -49,18 +51,18 @@ class _CodeBlock extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black87,
+        color: AppColors.charcoalDark,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black54),
+        border: Border.all(color: AppColors.charcoalOutline),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SelectableText(
           code,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'monospace',
             fontSize: 14,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
             height: 1.4,
           ),
         ),

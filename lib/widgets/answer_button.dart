@@ -27,12 +27,14 @@ class AnswerButton extends StatelessWidget {
     );
 
     if (isLocked) {
+      final colorScheme = Theme.of(context).colorScheme;
+
       if (isCorrectAnswer) {
-        background = Colors.green.shade100;
-        foreground = Colors.green.shade900;
+        background = colorScheme.primary;
+        foreground = colorScheme.onPrimary;
       } else if (isWrongSelected) {
-        background = Colors.red.shade100;
-        foreground = Colors.red.shade900;
+        background = colorScheme.error;
+        foreground = colorScheme.onError;
       }
     }
 
